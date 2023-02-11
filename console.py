@@ -26,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
        prompt (str): command line prompt
        classes (str): all classes to use in cmd
     """
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
     classes = {"BaseModel", "City", "User", "Amenity", "Place",
                "Review", "State"}
 
@@ -116,8 +116,8 @@ class HBNBCommand(cmd.Cmd):
             print(eval(args[0])().id)
             storage.save()
 
-    def do_quit(self):
-        """Exit The program, quit the command
+    def do_quit(self, cline):
+        """Exit The program, quit the command intepreter
         """
         return True
 
@@ -129,7 +129,7 @@ class HBNBCommand(cmd.Cmd):
         obj_dict = storage.all()
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -146,11 +146,11 @@ class HBNBCommand(cmd.Cmd):
         obj_dict = storage.all()
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
-        elif "{}.{}".format(argl[0], argl[1]) not in obj_dict.keys():
+        elif "{}.{}".format(args[0], args[1]) not in obj_dict.keys():
             print("** no instance found **")
         else:
             del obj_dict["{}.{}".format(args[0], args[1])]
@@ -167,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
-        if args[0] not in HBNBCommand.__classes:
+        if args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return False
         if len(args) == 1:
