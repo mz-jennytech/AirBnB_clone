@@ -41,7 +41,7 @@ class FileStorage:
         """Deserialize: JSON file __file_path to __objects, if it exists."""
         try:
             with open(self.__file_path) as f:
-            obj_dict = json.load(f)
+                obj_dict = json.load(f)
                 for obj in obj_dict.values():
                     cls_name = obj["__class__"]
                     del obj["__class__"]

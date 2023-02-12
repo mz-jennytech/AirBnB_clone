@@ -45,7 +45,7 @@ class BaseModel:
             self.id = str(uid())
             self.updated_at = dt.now()
             self.created_at = dt.now()
-            model.storage.save()
+            models.storage.save()
 
     def to_dict(self):
         """Returns the dictionary rep of instance """
@@ -61,7 +61,7 @@ class BaseModel:
     def save(self):
         """updates instance and saves in serialized file"""
         self.update_at = dt.now()
-        model.storage.save()
+        models.storage.save()
 
     def __str__(self):
         """Overrides built-in __str__
