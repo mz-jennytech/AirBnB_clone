@@ -1,78 +1,49 @@
 #!/usr/bin/python3
-"""Module BaseModel
-Defines parent of all classes
-"""
-
+"""Defines the BaseModel class."""
 import models
-from uuid import uuid4 as uid
-from datetime import datetime as dt
+from uuid import uuid4
+from datetime import datetime
 
 
 class BaseModel:
-    """Defines the BaseModel class module
-    Attributes: None
-    Methods:
-        __init___(self, *args, **kwargs)
-        to_dict(self)
-        save(self)
-        __str__(self)
-        __repr__(self)
-    """
+    """Represents the BaseModel of the HBnB project."""
 
     def __init__(self, *args, **kwargs):
-        """Initialize BaseModel obj and saves
+        """Initialize a new BaseModel.
         Args:
-            *args: any argument
-            **kwargs: key / value pairs of keyworded argument
-        Initializes object with attributes:
-            id (str): random generated id from uuid4
-            updated_at: date and time obj is updated
-            created_at: date and time obj is created
-            tformat: just variable
+            *args (any): Unused.
+            **kwargs (dict): Key/value pairs of attributes.
         """
-        tformat = "%Y-%m-%dT%H:%M:%S.%f"
-        if kwargs:
-            for key, val in kwargs.items():
-                if key == "created_at":
-                    self.created_at = dt.strptime(val, tformat)
-                elif key == "updated_at":
-                    self.updated_at = dt.strptime(val, tformat)
-                elif key == "__class__":
-                    pass
+        tform = "%Y-%m-%dT%H:%M:%S.%f"
+        self.id = str(uuid4())
+        self.created_at = datetime.today()
+        self.updated_at = datetime.today()
+        if len(kwargs) != 0:
+            for k, v in kwargs.items():
+                if k == "created_at" or k == "updated_at":
+                    self.__dict__[k] = datetime.strptime(v, tform)
                 else:
-                    setattr(self, key, val)
+                    self.__dict__[k] = v
         else:
-            self.id = str(uid())
-            self.updated_at = dt.now()
-            self.created_at = dt.now()
-            model.storage.save()
-
-    def to_dict(self):
-        """Returns the dictionary rep of instance """
-        dic = {}
-        dic["__class__"] = self.__class__.__name__
-        for key, val in self.__dict__.items():
-            if isinstance(val, (dt, )):
-                dic[key] = val.isoformat()
-            else:
-                dic[key] = val
-        return dic
+            models.storage.new(self)
 
     def save(self):
-        """updates instance and saves in serialized file"""
-        self.update_at = dt.now()
-        model.storage.save()
+        """Update updated_at with the current datetime."""
+        self.updated_at = datetime.today()
+        models.storage.save()
+
+    def to_dict(self):
+        """Return the dictionary of the BaseModel instance.
+        Includes the key/value pair __class__ representing
+        the class name of the object.
+        """
+        rdict = self.__dict__.copy()
+        rdict["created_at"] = self.created_at.isoformat()
+        rdict["updated_at"] = self.updated_at.isoformat()
+        rdict["__class__"] = self.__class__.__name__
+        return rdict
 
     def __str__(self):
-        """Overrides built-in __str__
-        Return string rep or info of model
-        """
-        s_format = "[{}] ({}) {}"
-        c_name = self.__class__.__name__
-        return (s_format.format(c_name, self.id, self.__dict__))
-
-    def __repr__(self):
-        """Overrides built-in __repr__
-        Returns __str__ on model
-        """
-        return (self.__str__())
+        """Return the print/str representation of the BaseModel instance."""
+        clname = self.__class__.__name__
+        return "[{}] ({}) {}".format(clname, self.id, self.__dict__)

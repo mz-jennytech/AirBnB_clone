@@ -93,6 +93,6 @@ $ python3 unittest -m tests/test_console.py
 ```
 
 ## Authors:
-**Adava Onimisi** <[Adava Onimisi](https://github.com/Nomynameisjames)>
-**Nnodim Obinna** <[Nnodim](https://github.com/Nnodim)>
+**Jennifer Udensi** <[mz-jennytech](https://github.com/mz-jennytech)>
+**Dulgan Danjuma** <[Dulgan1](ttps://github.com/Dulgan1)>
 
